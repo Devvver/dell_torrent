@@ -1,0 +1,82 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Edit1: TEdit;
+    Button1: TButton;
+    ListBox1: TListBox;
+    Timer1: TTimer;
+    Button2: TButton;
+    ListBox2: TListBox;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+var wnd: hwnd;
+    buff: array [0..127] of char;
+    i: integer ;
+    temp :string;
+begin
+ListBox1.clear;
+wnd := GetWindow(handle, gw_hwndfirst);
+while wnd <> 0 do
+begin // Не показываем:
+if (wnd <> Application.Handle) // Собственное окно
+and IsWindowVisible(wnd) // Невидимые окна
+and (GetWindow(wnd, gw_owner) = 0) // Дочерние окна
+and (GetWindowText(wnd, buff, SizeOf(buff)) <> 0) then
+begin
+GetWindowText(wnd, buff, SizeOf(buff));
+ListBox1.Items.Add(StrPas(buff));
+end;
+wnd := GetWindow(wnd, gw_hwndnext);
+end;
+//ListBox1.ItemIndex := 0;
+
+for i := 0 to ListBox1.Count-1 do
+begin
+If pos('qBittorrent',ListBox1.Items[i])=1
+ then begin
+
+ ShowMessage('qBittorrent запущен, поэтому ничего не делаю.');
+  break
+ end;
+
+
+end;
+
+
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var  sr: TSearchRec;
+begin
+if FindFirst(ExtractFilePath(ParamStr(0))+Edit1.Text+'*.torrent', faAnyFile, sr)=0  then  //ищем  файлы Word  в каталоге
+ repeat
+     Listbox2.Items.Add(sr.Name); //выводим список в ListBox
+     Deletefile(sr.Name+'.torrent')
+  until FindNext(sr)<>0;
+  FindClose(sr);
+end;
+end;
+end;
+
+end.

@@ -1,0 +1,63 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 520
+  ClientWidth = 788
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Edit1: TEdit
+    Left = 64
+    Top = 56
+    Width = 393
+    Height = 33
+    TabOrder = 0
+    Text = 'D:\load\test'
+  end
+  object Button1: TButton
+    Left = 64
+    Top = 104
+    Width = 145
+    Height = 41
+    Caption = #1060#1080#1082#1089#1080#1090#1100
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object ListBox1: TListBox
+    Left = 472
+    Top = 56
+    Width = 281
+    Height = 385
+    ItemHeight = 13
+    TabOrder = 2
+  end
+  object Button2: TButton
+    Left = 64
+    Top = 151
+    Width = 145
+    Height = 41
+    Caption = #1059#1076#1072#1083#1080#1090#1100
+    TabOrder = 3
+    OnClick = Button2Click
+  end
+  object ListBox2: TListBox
+    Left = 232
+    Top = 95
+    Width = 233
+    Height = 346
+    ItemHeight = 13
+    TabOrder = 4
+  end
+  object Timer1: TTimer
+    Interval = 3600000
+    Left = 72
+    Top = 408
+  end
+end
