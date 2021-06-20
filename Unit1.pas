@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,IniFiles;
 
 type
   TForm1 = class(TForm)
@@ -17,6 +17,8 @@ type
     Label1: TLabel;
     procedure Button3Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
@@ -53,6 +55,39 @@ label1.Caption:=FloatToStr(rek) +' ÒÂÍÛÌ‰' ;
  timer1.Enabled:=false;
  Button3.Caption:='—“¿–“'
  end;
+end;
+
+procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+Param3,Param4:string;
+Inifile:TIniFile;
+begin
+Inifile:=TIniFile.Create(GetCurrentDir + '\Options.ini');
+Param3:=Edit1.Text;
+Param4:=Edit2.Text;
+try
+ Inifile.Writestring('Param','Timer',param4);
+ Inifile.Writestring('Param','Papka',param3);
+
+finally
+Inifile.Destroy;
+end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+IniFile: TIniFile;
+  Param1,Param2:string;
+begin
+IniFile := TIniFile.Create(GetCurrentDir + '\Options.ini');
+try
+Param1:=IniFile.ReadString('Param','Timer','3600');
+Param2:=IniFile.readstring('Param','Papka','C:\temp\');
+   Edit1.Text:=Param2;
+    Edit2.Text:=Param1;
+finally
+IniFile.Destroy;
+end;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
