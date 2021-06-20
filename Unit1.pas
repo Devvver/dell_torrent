@@ -79,6 +79,7 @@ var
 IniFile: TIniFile;
   Param1,Param2:string;
 begin
+timer1.Enabled:=false;
 IniFile := TIniFile.Create(GetCurrentDir + '\Options.ini');
 try
 Param1:=IniFile.ReadString('Param','Timer','3600');
@@ -97,8 +98,10 @@ var wnd: hwnd;
     temp :string;
 sr: TSearchRec;
 Path: string;
+have:boolean;
 begin
-ListBox1.clear;
+ ListBox1.Clear;
+ have:=false;
 wnd := GetWindow(handle, gw_hwndfirst);
 while wnd <> 0 do
 begin // Не показываем:
@@ -106,6 +109,7 @@ if (wnd <> Application.Handle) // Собственное окно
 and IsWindowVisible(wnd) // Невидимые окна
 and (GetWindow(wnd, gw_owner) = 0) // Дочерние окна
 and (GetWindowText(wnd, buff, SizeOf(buff)) <> 0) then
+
 begin
 GetWindowText(wnd, buff, SizeOf(buff));
 ListBox1.Items.Add(StrPas(buff));
@@ -118,11 +122,13 @@ for i := 0 to ListBox1.Count-1 do
 begin
 If pos('qBittorrent',ListBox1.Items[i])=1
  then begin
-
+ have:=true;
 ListBox2.Items.Add('qBittorrent запущен, поэтому ничего не делаю.');
-  break
- end
- else
+ end ;
+ end;
+
+   if have=false then
+
  begin
   Path :=Edit1.Text+'\' ;
 // затем искать вложенные папки по этому пути:
@@ -137,11 +143,10 @@ if FindFirst(Path + '*.torrent', faAnyFile, sr) = 0 then
   end;
 FindClose(sr);
 
-
- end;
-
-
 end;
+
+
+
 end;
 
 end.
